@@ -1,0 +1,140 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow: hidden;
+  font-family: "Open Sans", serif;
+  font-size: 10px;
+  /* line-height: 1.5; */
+}
+
+:root {
+  --main-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* ::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--blue-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--blue-alt-color);
+} */
+
+.container {
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 770px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+
+.page {
+  background-color: #f1f5f9;
+}
+
+aside {
+  width: 250px;
+  box-shadow: 0 0 10px #ddd;
+  @media (max-width: 767px) {
+    & {
+      width: 60px;
+      padding: 10px !important;
+    }
+  }
+  > div {
+    position: fixed;
+  }
+  h3 {
+    width: 168px;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      background-color: black;
+      left: 50%;
+      translate: -50% 0;
+    }
+    @media (max-width: 767px) {
+      &::after,
+      &::before {
+        display: none;
+      }
+      & {
+        font-size: 13px;
+        margin: 0 0 15px !important;
+        width: 37.5px;
+      }
+    }
+    &::before {
+      width: 80px;
+      height: 2px;
+    }
+    &::after {
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      border: white 4px solid;
+      bottom: -29px;
+    }
+  }
+  ul {
+    padding: 0;
+    a {
+      margin-bottom: 5px;
+      text-transform: capitalize;
+      transition: 0.3s;
+      &.active {
+        background-color: #f6f6f6;
+      }
+      &:hover {
+        background-color: #f6f6f6;
+      }
+      span {
+        margin-left: 10px;
+      }
+      @media (max-width: 767px) {
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
