@@ -17,21 +17,41 @@
   <link rel="stylesheet" href="css/framework.css">
 </head>
 
-<body>
-  <header>
-    <div class="container">
-      <img class="logo" src="image/logo.jpg" alt="">
-      <nav class="links">
-        <ul>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Tasks</a></li>
-          <li><a href="#">Analytics</a></li>
-          <li><a href="#">Settings</a></li>
-        </ul>
-      </nav>
+<body style="height: 100vh;">
+  <button class="add-task">+</button>
+  <form class="details" style="display: none;">
+    <div>
+      <input required type="text" placeholder="Title" class="title" name="title">
+      <input type="text" placeholder="Description" class="description" name="description">
     </div>
-  </header>
+    <div>
+      <div>
+        <label for="day">Due Date</label>
+        <input type="text" class="day" id="day" name="day">
+        <label for="priority">Priority</label>
+        <select name="priority" id="priority" class="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <label for="status">Status</label>
+        <select name="status" id="status" class="status">
+          <option value="incomplete">Incomplete</option>
+          <option value="complete">Complete</option>
+        </select>
+        <select name="repeat" id="repeat" class="repeat">
+          <option value="none">None</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+      <input type="submit" value="Send">
+    </div>
+  </form>
+
   <script src="js/main.js"></script>
+  <div class="overlay" style="display: none;"></div>
 </body>
 
 </html>
