@@ -65,6 +65,7 @@ ul {
 }
 a {
   text-decoration: none;
+  
 }
 
 .page {
@@ -92,6 +93,7 @@ header {
     gap: 60px;
     li {
       font-size: 1.8rem;
+      color: black;
     }
   }
 }
