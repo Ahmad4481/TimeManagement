@@ -96,3 +96,62 @@ header {
   }
 }
 /* End Header  */
+
+
+/* Existing styles... */
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.intro h1 {
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.intro p {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.features {
+  background-color: #f6f6f6;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.features h2 {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.features ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.features li {
+  font-size: 1.1em;
+  color: #444;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.features li::before {
+  content: "\f00c";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  color: #4CAF50;
+}
