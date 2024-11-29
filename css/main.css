@@ -1,11 +1,11 @@
 html {
   scroll-behavior: smooth;
+  font-size: 10px;
 }
 
 body {
   overflow: hidden;
   font-family: "Open Sans", serif;
-  font-size: 10px;
 }
 
 :root {
@@ -39,18 +39,21 @@ body {
   margin: 0 auto;
 }
 
+/* Small */
 @media (min-width: 768px) {
   .container {
     width: 750px;
   }
 }
 
+/* Medium */
 @media (min-width: 992px) {
   .container {
-    width: 770px;
+    width: 970px;
   }
 }
 
+/* Large */
 @media (min-width: 1200px) {
   .container {
     width: 1170px;
@@ -68,72 +71,28 @@ a {
   background-color: #f1f5f9;
 }
 
-aside {
-  width: 250px;
-  box-shadow: 0 0 10px #ddd;
-  @media (max-width: 767px) {
-    & {
-      width: 60px;
-      padding: 10px !important;
-    }
+/* Start Header  */
+header {
+  background-color: #c6d6d3;
+  width: 100%;
+  height: 80px;
+  padding: 10px 0;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  > div {
-    position: fixed;
+  img.logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   }
-  h3 {
-    width: 168px;
-    &::after,
-    &::before {
-      content: "";
-      position: absolute;
-      bottom: -20px;
-      background-color: black;
-      left: 50%;
-      translate: -50% 0;
-    }
-    @media (max-width: 767px) {
-      &::after,
-      &::before {
-        display: none;
-      }
-      & {
-        font-size: 13px;
-        margin: 0 0 15px !important;
-        width: 37.5px;
-      }
-    }
-    &::before {
-      width: 80px;
-      height: 2px;
-    }
-    &::after {
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      border: white 4px solid;
-      bottom: -29px;
-    }
-  }
-  ul {
-    padding: 0;
-    a {
-      margin-bottom: 5px;
-      text-transform: capitalize;
-      transition: 0.3s;
-      &.active {
-        background-color: #f6f6f6;
-      }
-      &:hover {
-        background-color: #f6f6f6;
-      }
-      span {
-        margin-left: 10px;
-      }
-      @media (max-width: 767px) {
-        span {
-          display: none;
-        }
-      }
+  .links ul {
+    display: flex;
+    gap: 60px;
+    li {
+      font-size: 1.8rem;
     }
   }
 }
+/* End Header  */
