@@ -38,7 +38,9 @@ let delTasks = JSON.parse(localStorage.getItem("delTasks")) || [];
 add.addEventListener("click", (el) => {
   document.querySelector(".overlay").style.display = "block";
   form.style.display = "block";
-  form.day.value = `${Number(new Date().getDate())-1}/${months[new Date().getMonth()]}/${new Date().getFullYear()}`;
+  form.day.value = `${Number(new Date().getDate()) - 1}/${
+    months[new Date().getMonth()]
+  }/${new Date().getFullYear()}`;
   el.preventDefault();
 });
 
@@ -49,13 +51,13 @@ document.querySelector('[type="submit"]').addEventListener("click", (e) => {
 
   // Check if the date is valid
   if (isNaN(date.getTime())) {
-    alert('تاريخ غير صالح');
+    alert("تاريخ غير صالح");
     return;
   }
 
   // Check if the date is in the future
   if (date > new Date()) {
-    alert('لا يمكن أن يكون التاريخ في المستقبل');
+    alert("لا يمكن أن يكون التاريخ في المستقبل");
     return;
   }
   document.forms[0].setAttribute("value", Date.now());
