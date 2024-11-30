@@ -15,7 +15,6 @@ class Task {
   addTask() {
     tasks.push(this);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    renderTasks();
   }
 
   fullDetails() {
@@ -30,43 +29,64 @@ class Task {
   }
 }
 
+function creteTask() {}
+
 const form = document.querySelector("form.details");
 const add = document.querySelector(".add-task");
-const tasksContainer = document.getElementById("tasksContainer");
+const taskList = document.getElementById("tasksContainer");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+tasks.forEach(({ title: t, dueDate: dt }) => {
+  let task = document.createElement("div");
+  task.classList.add("task");
+  task.innerHTML = `
+<div>
+  <div class="task-title">${t}</div>
+  <div class="task-date">${dt} +${dt-new Date()}</div>
+</div>
+<div class="task-check">
+  <i class="fas fa-check"></i>
+</div>
+  `;
+  taskList.appendChild(task);
+});
 
 add.addEventListener("click", (el) => {
   document.querySelector(".overlay").style.display = "block";
   form.style.display = "block";
   el.preventDefault();
 });
+document
+  .querySelector('[type="submit"]')
+  .addEventListener("click", function (e) {
+    e.preventDefault();
+    let day = document.getElementsByName("day")[0].value;
+    let date = new Date(day);
 
-document.querySelector('[type="submit"]').addEventListener("click", (e) => {
-  e.preventDefault();
-  let day = document.getElementsByName("day")[0].value;
-  let date = new Date(day);
+    // Check if the date is valid
+    if (isNaN(date.getTime())) return;
 
-  // Check if the date is valid
-  if (isNaN(date.getTime())) {
-    alert("تاريخ غير صالح");
-    return;
-  }
+    const newTask = new Task(
+      form.title.value,
+      form.description.value,
+      form.day.value,
+      form.priority.value,
+      form.status.value
+    );
 
-  // Check if the date is in the future
-  if (date > new Date()) {
-    alert("لا يمكن أن يكون التاريخ في المستقبل");
-    return;
-  }
+    newTask.addTask();
+    document.querySelector(".overlay").style.display = "none";
+    form.style.display = "none";
+  });
 
-  const newTask = new Task(
-    form.title.value,
-    form.description.value,
-    form.day.value,
-    form.priority.value,
-    form.status.value
-  );
+// إضافة التفاعل على الـ div
+const taskCheck = document.querySelector(".task-check");
 
-  newTask.addTask();
-  document.querySelector(".overlay").style.display = "none";
-  form.style.display = "none";
+taskCheck.addEventListener("click", function () {
+  console.log(this);
+  taskCheck.classList.toggle("checked");
+  taskCheck.parentElement.style.textDecoration = taskCheck.classList.contains(
+    "checked"
+  )
+    ? "line-through"
+    : "none";
 });

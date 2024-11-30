@@ -317,23 +317,63 @@ body.sidebar-hidden main {
 
 /* Responsive design for smaller screens */
 
-.task-list {
+.task {
+  background-color: #f9f9f9; /* خلفية فاتحة */
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* تأثير الظلال */
+  transition: transform 0.2s, box-shadow 0.2s; /* تأثيرات على hover */
   display: flex;
-  flex-flow: column nowrap;
-  background-color: white;
-  /* height: 90vh; */
-  padding: 10px;
-  border-radius: 10px;
-  .task {
-    background-color: white;
-    
-    > div {
-    }
-    .task-title {
-    }
-    .task-date {
-    }
-    .task-check {
-    }
-  }
+  justify-content: space-between;
+  font-size: 1.4rem;
+  align-items: center;
+}
+
+.task:hover {
+  transform: translateY(-5px); /* رفع العنصر عند المرور */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* زيادة الظل */
+}
+
+
+
+
+/* تحسين مظهر div ليشبه الـ checkbox */
+.task-check {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  line-height: 30px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.task-check.checked {
+  background-color: #2d5061; /* تغيير اللون عند التحقق */
+  border-color: #2c3e50;
+}
+
+.task-check i {
+  display: none; /* إخفاء أيقونة check عند البداية */
+  color: white;
+  font-size: 18px;
+}
+
+.task-check.checked i {
+  display: block; 
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* تغيير اللون عند المرور بالماوس */
+.task-check:hover {
+  border-color: #2c3e50;
 }
