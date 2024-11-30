@@ -97,50 +97,83 @@ aside {
 /* Form Styles */
 form.details {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f1f5f9; /* Original background color */
-  border-radius: 5px;
+  max-width: 400px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
   position: absolute;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  z-index: 9999;
 }
 
+/* Form Heading */
+form.details h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4facfe;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+/* Form Elements */
 form.details > div {
   margin-bottom: 20px;
 }
 
-/* Input Styles */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
 input[type="text"],
 input[type="date"],
 select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 8px;
   font-size: 16px;
+  transition: border-color 0.3s;
 }
 
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #4facfe;
+  outline: none;
+}
+
+/* Submit Button */
 input[type="submit"] {
-  display: block;
   width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: #fff;
+  padding: 12px;
+  background: #4facfe;
+  color: white;
   border: none;
-  border-radius: 3px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-/* Label Styles */
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+input[type="submit"]:hover {
+  background: #00c2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+  form.details {
+    padding: 20px;
+  }
+  input[type="submit"] {
+    font-size: 16px;
+  }
 }
 /* Start Header  */
 
@@ -274,7 +307,8 @@ label {
 main {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
-  padding: 20px;
+  padding: 5px;
+  flex: 1;
 }
 
 body.sidebar-hidden main {
@@ -282,30 +316,24 @@ body.sidebar-hidden main {
 }
 
 /* Responsive design for smaller screens */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 250px;
-    transform: translateX(-250px);
-  }
 
-  .sidebar.hidden {
-    transform: translateX(0);
-  }
-
-  main {
-    margin-left: 0;
-  }
-
-  body.sidebar-hidden main {
-    margin-left: 250px;
-  }
-
-  .toggle-sidebar {
-    left: 10px;
-  }
-
-  body.sidebar-hidden .toggle-sidebar {
-    left: 260px;
+.task-list {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: white;
+  /* height: 90vh; */
+  padding: 10px;
+  border-radius: 10px;
+  .task {
+    background-color: white;
+    
+    > div {
+    }
+    .task-title {
+    }
+    .task-date {
+    }
+    .task-check {
+    }
   }
 }
-

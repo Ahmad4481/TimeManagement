@@ -1,6 +1,6 @@
 class Task {
   constructor(title, description, dueDate, priority, status = "Incomplete") {
-    this.id = Date.now(); // معرف فريد لكل مهمة
+    this.id = Date.now(); // Unique identifier for each task
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -11,14 +11,17 @@ class Task {
   markComplete() {
     this.status = "Complete";
   }
+
   addTask() {
     tasks.push(this);
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
   }
+
   fullDetails() {
     return {
       id: this.id,
-      title: this.task,
+      title: this.title,
       description: this.description,
       dueDate: this.dueDate,
       priority: this.priority,
@@ -29,18 +32,12 @@ class Task {
 
 const form = document.querySelector("form.details");
 const add = document.querySelector(".add-task");
-const months =
-  "January February March April May June July August September October November December".split(
-    " "
-  );
+const tasksContainer = document.getElementById("tasksContainer");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let delTasks = JSON.parse(localStorage.getItem("delTasks")) || [];
+
 add.addEventListener("click", (el) => {
   document.querySelector(".overlay").style.display = "block";
   form.style.display = "block";
-  form.day.value = `${Number(new Date().getDate()) - 1}/${
-    months[new Date().getMonth()]
-  }/${new Date().getFullYear()}`;
   el.preventDefault();
 });
 
@@ -60,23 +57,16 @@ document.querySelector('[type="submit"]').addEventListener("click", (e) => {
     alert("لا يمكن أن يكون التاريخ في المستقبل");
     return;
   }
-  document.forms[0].setAttribute("value", Date.now());
-  tasks.push(
-    new Task(
-      form.title.value,
-      form.description.value,
-      form.day.value,
-      form.priority.value,
-      form.status.value
-    ).fullDetails()
+
+  const newTask = new Task(
+    form.title.value,
+    form.description.value,
+    form.day.value,
+    form.priority.value,
+    form.status.value
   );
+
+  newTask.addTask();
   document.querySelector(".overlay").style.display = "none";
   form.style.display = "none";
 });
-
-document.getElementById("toggleSidebar").addEventListener("click", function () {
-  document.querySelector(".sidebar").classList.toggle("hidden");
-  document.querySelector(".add-task").classList.toggle("sidebar-hidden");
-});
-
-// ... rest of your existing JavaScript code ...
