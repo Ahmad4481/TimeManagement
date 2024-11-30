@@ -70,6 +70,13 @@ document.querySelector('[type="submit"]').addEventListener("click", (e) => {
       form.status.value
     ).fullDetails()
   );
-  // document.querySelector(".overlay").style.display = "none";
-  // form.style.display = "none";
+  document.querySelector(".overlay").style.display = "none";
+  form.style.display = "none";
 });
+
+document.getElementById("toggleSidebar").addEventListener("click", function () {
+  document.querySelector(".sidebar").classList.toggle("hidden");
+  document.querySelector(".add-task").classList.toggle("sidebar-hidden");
+});
+
+// ... rest of your existing JavaScript code ...
