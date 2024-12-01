@@ -349,6 +349,7 @@ body.sidebar-hidden main {
   display: inline-block;
   position: relative;
   text-align: center;
+  text-decoration: none !important;
   line-height: 30px;
   transition: background-color 0.3s, border-color 0.3s;
 }

@@ -1,20 +1,23 @@
 class Task {
-  constructor(title, description, dueDate, priority, status = "Incomplete") {
+  constructor(
+    title,
+    description,
+    dueDate,
+    priority,
+    status = "Incomplete",
+    repeat = "none"
+  ) {
     this.id = Date.now(); // Unique identifier for each task
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.status = status;
+    this.repeat = repeat;
   }
 
   markComplete() {
     this.status = "Complete";
-  }
-
-  addTask() {
-    tasks.push(this);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
   fullDetails() {
@@ -25,68 +28,86 @@ class Task {
       dueDate: this.dueDate,
       priority: this.priority,
       status: this.status,
+      withinDays: Math.floor(
+        (new Date(this.dueDate).getTime() - Date.now()) / 1000 / 60 / 60 / 24
+      ),
     };
+  }
+
+  addTask() {
+    tasks.push(this.fullDetails());
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 }
 
-function creteTask() {}
-
 const form = document.querySelector("form.details");
-const add = document.querySelector(".add-task");
-const taskList = document.getElementById("tasksContainer");
+const addTaskButton = document.querySelector(".add-task");
+const taskListContainer = document.getElementById("tasksContainer");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-tasks.forEach(({ title: t, dueDate: dt }) => {
-  let task = document.createElement("div");
-  task.classList.add("task");
-  task.innerHTML = `
-<div>
-  <div class="task-title">${t}</div>
-  <div class="task-date">${dt} +${dt-new Date()}</div>
-</div>
-<div class="task-check">
-  <i class="fas fa-check"></i>
-</div>
-  `;
-  taskList.appendChild(task);
-});
 
-add.addEventListener("click", (el) => {
+function createTask(tasks) {
+  taskListContainer.innerHTML = ""; // Clear the task list
+  tasks.forEach(({ title, dueDate, withinDays }) => {
+    const taskElement = document.createElement("div");
+    taskElement.classList.add("task");
+
+    taskElement.innerHTML = `
+      <div>
+        <div class="task-title">${title}</div>
+        <div class="task-date">${dueDate} (${withinDays} days remaining)</div>
+      </div>
+      <div class="task-check">
+        <i style="text-decoration: none !important;" class="fas fa-check"></i>
+      </div>
+    `;
+
+    taskListContainer.appendChild(taskElement);
+  });
+}
+
+addTaskButton.addEventListener("click", (event) => {
+  event.preventDefault();
   document.querySelector(".overlay").style.display = "block";
   form.style.display = "block";
-  el.preventDefault();
 });
-document
-  .querySelector('[type="submit"]')
-  .addEventListener("click", function (e) {
-    e.preventDefault();
-    let day = document.getElementsByName("day")[0].value;
-    let date = new Date(day);
 
-    // Check if the date is valid
-    if (isNaN(date.getTime())) return;
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-    const newTask = new Task(
-      form.title.value,
-      form.description.value,
-      form.day.value,
-      form.priority.value,
-      form.status.value
-    );
+  if (form.day.value === "") {
+    form.day.value = new Date(Date.now()).toISOString().split('T')[0];
+  } else if (isNaN(Date.parse(form.day.value))) {
+    alert("Invalid date format. Please use the format 'YYYY-MM-DD'.");
+    return;
+  } else {
+    form.day.value = new Date(Date.now()).toISOString().split('T')[0];
+  }
 
-    newTask.addTask();
-    document.querySelector(".overlay").style.display = "none";
-    form.style.display = "none";
+  const newTask = new Task(
+    form.title.value,
+    form.description.value,
+    form.day.value,
+    form.priority.value,
+    form.repeat.value
+  );
+
+  newTask.addTask();
+  createTask(tasks);
+  document.querySelector(".overlay").style.display = "none";
+  form.style.display = "none";
+});
+
+// document.querySelectorAll(".task").forEach((taskElement) => {
+//   taskElement.addEventListener("click", () => {
+//     document.querySelector(".overlay").style.display = "block";
+//     form.style.display = "block";
+//   });
+// });
+
+document.querySelectorAll(".task-check").forEach((taskCheckElement) => {
+  taskCheckElement.addEventListener("click", () => {
+    taskCheckElement.classList.toggle("checked");
+    taskCheckElement.parentElement.firstElementChild.style.textDecoration =
+      taskCheckElement.classList.contains("checked") ? "line-through" : "none";
   });
-
-// إضافة التفاعل على الـ div
-const taskCheck = document.querySelector(".task-check");
-
-taskCheck.addEventListener("click", function () {
-  console.log(this);
-  taskCheck.classList.toggle("checked");
-  taskCheck.parentElement.style.textDecoration = taskCheck.classList.contains(
-    "checked"
-  )
-    ? "line-through"
-    : "none";
 });
