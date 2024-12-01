@@ -29,7 +29,9 @@ class Task {
       priority: this.priority,
       status: this.status,
       withinDays: Math.floor(
-        (new Date(this.dueDate).getTime() - Date.now()) / 1000 / 60 / 60 / 24
+        (new Date(new Date(this.dueDate).setHours(0, 0, 0, 0)) -
+          new Date(new Date().setHours(0, 0, 0, 0))) /
+          (1000 * 60 * 60 * 24)
       ),
     };
   }
@@ -40,11 +42,30 @@ class Task {
   }
 }
 
+function sortTasks() {
+  tasks.sort((a, b) => {
+    if (a.priority > b.priority) {
+      return -1;
+    }
+    if (a.priority < b.priority) {
+      return 1;
+    }
+    if (a.dueDate < b.dueDate) {
+      return -1;
+    }
+    if (a.dueDate > b.dueDate) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 const form = document.querySelector("form.details");
 const addTaskButton = document.querySelector(".add-task");
 const taskListContainer = document.getElementById("tasksContainer");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
+sortTasks();
+createTask(tasks);
 function createTask(tasks) {
   taskListContainer.innerHTML = ""; // Clear the task list
   tasks.forEach(({ title, dueDate, withinDays }) => {
@@ -70,17 +91,14 @@ addTaskButton.addEventListener("click", (event) => {
   document.querySelector(".overlay").style.display = "block";
   form.style.display = "block";
 });
-
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   if (form.day.value === "") {
-    form.day.value = new Date(Date.now()).toISOString().split('T')[0];
+    form.day.value = +new Date(Date.now());
   } else if (isNaN(Date.parse(form.day.value))) {
     alert("Invalid date format. Please use the format 'YYYY-MM-DD'.");
     return;
-  } else {
-    form.day.value = new Date(Date.now()).toISOString().split('T')[0];
   }
 
   const newTask = new Task(
@@ -95,6 +113,12 @@ form.addEventListener("submit", (event) => {
   createTask(tasks);
   document.querySelector(".overlay").style.display = "none";
   form.style.display = "none";
+});
+
+document.querySelector(".toggle-sidebar").addEventListener("click", () => {
+  document.querySelector('aside').classList.toggle("hidden");
+  document.querySelector('.add-task').classList.toggle("sidebar-hidden");
+  document.querySelector('.tasks-container').style.cssText = `margin-right: ${document.querySelector('aside').classList.contains('hidden')? '0' : '200px'};`;
 });
 
 // document.querySelectorAll(".task").forEach((taskElement) => {
