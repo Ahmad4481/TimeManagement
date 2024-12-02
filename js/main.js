@@ -159,7 +159,7 @@ function initializeEventListeners() {
 function changeTask() {
   document.querySelectorAll(".task").forEach((el, i) => {
     el.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("del")&&e.target.classList.contains('task-check')) {
+      if (!e.target.classList.contains("del")&&!e.target.classList.contains('')) {
         document.querySelector(".overlay").style.display = "block";
         form.style.display = "block";
         form.title.value = tasks[i].title;
@@ -201,6 +201,7 @@ function close() {
 
 document.addEventListener("DOMContentLoaded", function () {
   close();
+  del();
   initializeFlatpickr();
   initializeChoices();
   initializeForm();
@@ -208,7 +209,6 @@ document.addEventListener("DOMContentLoaded", function () {
   sortTasks();
   createTask(tasks);
   changeTask();
-  del();
 });
 
 const form = document.querySelector("form.details");
