@@ -72,8 +72,10 @@ function createTask(tasks) {
         <i class="del fa-solid fa-trash-can"></i>
       </div>
     `;
-
     taskListContainer.appendChild(taskElement);
+    checkTask();
+    del();
+    changeTask();
   });
 }
 
@@ -91,8 +93,7 @@ function initializeForm() {
 
     newTask.addTask();
     createTask(tasks);
-    document.querySelector(".overlay").style.display = "none";
-    form.style.display = "none";
+    close();
   });
 }
 
@@ -144,72 +145,11 @@ function initializeEventListeners() {
     });
     document.querySelector(".add-task").classList.toggle("sidebar-hidden");
   });
-
 }
 
-// function changeTask() {
-  //   document.querySelectorAll(".task").forEach((el, i) => {
-    //     el.addEventListener("click", (e) => {
-//       if (!e.target.classList.contains("del")&&!e.target.classList.contains('')) {
-//         document.querySelector(".overlay").style.display = "block";
-//         form.style.display = "block";
-//         form.title.value = tasks[i].title;
-//         form.description.value = tasks[i].description;
-//         form.day.value = tasks[i].dueDate;
-//         form.priority.value = tasks[i].priority;
-//         form.time.value = tasks[i].time;
-//         form.repeat.value = tasks[i].repeat;
-//         form.addEventListener("submit", (event) => {
-//           event.preventDefault();
-//           tasks.splice(i, i + 1);
-//           console.log(tasks);
-//           localStorage.setItem("tasks", JSON.stringify(tasks));
-//           sortTasks();
-//           createTask(tasks);
-//           close();
-//         });
-//       }
-//     });
-//   });
-// }
-
-function del() {
-  document.querySelectorAll(".del").forEach(function (el, i) {
-    document.querySelector(".del").addEventListener("click", function (e) {
-      tasks.splice(i, i + 1);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      this.parentElement.parentElement.remove();
-    });
-  });
-}
-
-// function close() {
-//   document.querySelector(".close").addEventListener("click", () => {
-//     document.querySelector(".overlay").style.display = "none";
-//     form.style.display = "none";
-//   });
-// }
-
-document.querySelectorAll(".del").forEach(function (el, i) {
-  console.log(el)
-  document.querySelector(".del").addEventListener("click",  (e) => {
-    console.log(this)
-    tasks.splice(i, i + 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    this.parentElement.parentElement.remove();
-  });
-});
-document.addEventListener("DOMContentLoaded", function () {
-  close();
-  initializeFlatpickr();
-  initializeChoices();
-  initializeForm();
-  initializeEventListeners();
-  sortTasks();
-  createTask(tasks);
-  // changeTask();
+function checkTask() {
   document.querySelectorAll(".task-check").forEach((taskCheckElement) => {
-    taskCheckElement.addEventListener("click", () => {
+    taskCheckElement.addEventListener("click", function ()  {
       console.log(this)
       taskCheckElement.classList.toggle("checked");
       taskCheckElement.parentElement.firstElementChild.style.textDecoration =
@@ -218,7 +158,66 @@ document.addEventListener("DOMContentLoaded", function () {
           : "none";
     });
   });
+}
+
+function changeTask() {
+  document.querySelectorAll(".task").forEach((el, i) => {
+    el.addEventListener("click", (e) => {
+      if (
+        !e.target.classList.contains("del") &&
+        !e.target.classList.contains("task-check") &&
+        !e.target.classList.contains("fa-check")
+      ) {
+        console.log(e.target);
+        document.querySelector(".overlay").style.display = "block";
+        form.style.display = "block";
+        form.title.value = tasks[i].title;
+        form.description.value = tasks[i].description;
+        form.day.value = tasks[i].dueDate;
+        form.priority.value = tasks[i].priority;
+        form.time.value = tasks[i].time;
+        form.repeat.value = tasks[i].repeat;
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          tasks.splice(i, i + 1);
+          console.log(tasks);
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+          sortTasks();
+          createTask(tasks);
+          close();
+        });
+      }
+    });
+  });
+}
+
+function del() {
+  document.querySelectorAll(".del").forEach(function (el, i) {
+    el.addEventListener("click", function (e) {
+      tasks.splice(i, i + 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      this.parentElement.parentElement.remove();
+    });
+  });
+}
+
+function close() {
+  document.querySelector(".overlay").style.display = "none";
+  form.style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  initializeFlatpickr();
+  initializeChoices();
+  initializeForm();
+  initializeEventListeners();
+  sortTasks();
+  createTask(tasks);
+  document.querySelector(".close").addEventListener("click", () => {close();});
 });
+changeTask();
+del();
+checkTask();
 
 const form = document.querySelector("form.details");
 const addTaskButton = document.querySelector(".add-task");
