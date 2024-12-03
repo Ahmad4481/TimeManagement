@@ -41,9 +41,16 @@
         <li><a href="#"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
       </ul>
     </aside>
-
+    
     <!-- Main Content -->
     <main>
+      <select class="filter">
+        <option value="all">All Tasks</option>
+        <option value="today">Today</option>
+        <option value="later">Later</option>
+        <option value="completed">Completed</option>
+        <option value="missed">Missed</option>
+      </select>
       <div id="tasksContainer" class="task-list"></div>
     </main>
   </div>
@@ -69,6 +76,8 @@
       </select>
       <label for="time">Time</label>
       <input type="text" name="time" id="time" class="time">
+      <label for="endTime">End Time</label>
+      <input class="end-time" type="text" name="endTime" id="endTime">
       <label for="repeat">Repeat</label>
       <select name="repeat" id="repeat" class="repeat">
         <option selected value="none">None</option>
