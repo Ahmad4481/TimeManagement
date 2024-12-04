@@ -4,27 +4,53 @@ const taskListContainer = document.getElementById("tasksContainer");
 let allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 function filterTask() {
-  const filterValue = document.querySelector('.filter').value;
+  const filterValue = document.querySelector(".filter").value;
   let filteredTasks;
 
-  switch(filterValue) {
-    case 'today':
-      filteredTasks = allTasks.filter(task => 
-        new Date(task.dueDate).toDateString() === new Date().toDateString()
+  switch (filterValue) {
+    case "today":
+      filteredTasks = allTasks.filter(
+        (task) =>
+          new Date(task.dueDate).toDateString() === new Date().toDateString()
       );
       break;
-    case 'later':
-      filteredTasks = allTasks.filter(task => 
-        new Date(task.dueDate) > new Date()
-      );
+    case "later":
+      filteredTasks = allTasks.filter((task) => {
+        let end = new Date().setHours(
+          task.endTime.split(":")[0],
+          task.endTime.split(":")[1]
+        );
+        let start = new Date().setHours(
+          task.time.split(":")[0],
+          task.time.split(":")[1]
+        );
+        if (!isNaN(end) || !isNaN(start))
+          return end >= new Date() || start >= new Date();
+
+        return (
+          new Date(task.dueDate).toDateString() > new Date().toDateString()
+        );
+      });
       break;
-    case 'completed':
-      filteredTasks = allTasks.filter(task => task.checked);
+    case "completed":
+      filteredTasks = allTasks.filter((task) => task.checked);
       break;
-    case 'missed':
-      filteredTasks = allTasks.filter(task => 
-        new Date(task.dueDate) < new Date() && !task.checked
-      );
+    case "missed":
+      filteredTasks = allTasks.filter((task) => {
+        let end = new Date().setHours(
+          task.endTime.split(":")[0],
+          task.endTime.split(":")[1]
+        );
+        let start = new Date().setHours(
+          task.time.split(":")[0],
+          task.time.split(":")[1]
+        );
+        if (!isNaN(end) || !isNaN(start))
+          return (end <= new Date() || start <= new Date()) && !task.checked;
+        return (
+          new Date(task.dueDate).toDateString() > new Date().toDateString()
+        );
+      });
       break;
     default:
       filteredTasks = allTasks;
@@ -35,7 +61,16 @@ function filterTask() {
 }
 
 class Task {
-  constructor(title, description, dueDate, priority, time = "", endTime = "", repeat = "none", checked = false) {
+  constructor(
+    title,
+    description,
+    dueDate,
+    priority,
+    time = "",
+    endTime = "",
+    repeat = "none",
+    checked = false
+  ) {
     this.id = Date.now();
     this.title = title;
     this.description = description;
@@ -58,7 +93,7 @@ class Task {
       time: this.time,
       endTime: this.endTime,
       repeat: this.repeat,
-      checked: this.checked
+      checked: this.checked,
     };
   }
 
@@ -83,8 +118,12 @@ function sortTasks(tasks) {
     if (dateDiff !== 0) return dateDiff;
 
     const today = new Date().toISOString().split("T")[0];
-    const aTime = a.time ? new Date(`${today}T${a.time}`) : new Date(`${today}T00:00`);
-    const bTime = b.time ? new Date(`${today}T${b.time}`) : new Date(`${today}T00:00`);
+    const aTime = a.time
+      ? new Date(`${today}T${a.time}`)
+      : new Date(`${today}T00:00`);
+    const bTime = b.time
+      ? new Date(`${today}T${b.time}`)
+      : new Date(`${today}T00:00`);
     const timeDiff = aTime - bTime;
     if (timeDiff !== 0) return timeDiff;
 
@@ -94,7 +133,7 @@ function sortTasks(tasks) {
 
 function createTask(tasks) {
   taskListContainer.innerHTML = "";
-  tasks.forEach(task => {
+  tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
     taskElement.dataset.taskId = task.id;
@@ -105,12 +144,12 @@ function createTask(tasks) {
           task.checked ? "line-through" : "none"
         }">${task.title}</div>
         <div class="task-date">${task.dueDate} (${
-          task.withinDays > 0
-            ? `days remaining is ${task.withinDays}`
-            : task.withinDays < 0
-            ? `days Passed Is ${Math.abs(task.withinDays)}`
-            : `Today`
-        }) ${task.time}</div>
+      task.withinDays > 0
+        ? `days remaining is ${task.withinDays}`
+        : task.withinDays < 0
+        ? `days Passed Is ${Math.abs(task.withinDays)}`
+        : `Today`
+    }) ${task.time}</div>
       </div>
       <div>
         <div class="task-check ${task.checked ? "checked" : ""}">
@@ -127,11 +166,11 @@ function checkTask(taskCheckElement) {
   if (taskCheckElement.classList.contains("fa-check")) {
     taskCheckElement = taskCheckElement.parentElement;
   }
-  
+
   const taskElement = taskCheckElement.closest(".task");
   const taskId = parseInt(taskElement.dataset.taskId);
-  const taskIndex = allTasks.findIndex(task => task.id === taskId);
-  
+  const taskIndex = allTasks.findIndex((task) => task.id === taskId);
+
   if (taskIndex !== -1) {
     allTasks[taskIndex].checked = !allTasks[taskIndex].checked;
     localStorage.setItem("tasks", JSON.stringify(allTasks));
@@ -141,7 +180,7 @@ function checkTask(taskCheckElement) {
 
 function del(taskElement) {
   const taskId = parseInt(taskElement.dataset.taskId);
-  allTasks = allTasks.filter(task => task.id !== taskId);
+  allTasks = allTasks.filter((task) => task.id !== taskId);
   localStorage.setItem("tasks", JSON.stringify(allTasks));
   filterTask();
 }
@@ -202,6 +241,30 @@ function initializeChoices() {
     itemSelectText: "",
   });
 }
+document.body.addEventListener("", () => {
+  console.log("0");
+});
+function search() {
+  const searchInput = document.querySelector("#search");
+  searchInput.addEventListener("keyup", (event) => {
+    console.log(9);
+    if (searchInput.value.trim() !== "") {
+      const filteredTasks = allTasks.filter((task) => {
+        return task.title
+          .toLowerCase()
+          .includes(searchInput.value.toLowerCase());
+      });
+      sortTasks(filteredTasks);
+      createTask(filteredTasks);
+    } else {
+      const filteredTasks = allTasks.filter((task) => {
+        return true;
+      });
+      sortTasks(filteredTasks);
+      createTask(filteredTasks);
+    }
+  });
+}
 
 function initializeEventListeners() {
   addTaskButton.addEventListener("click", (event) => {
@@ -249,7 +312,7 @@ function close() {
 
 function changeTask(taskElement) {
   const taskId = parseInt(taskElement.dataset.taskId);
-  const task = allTasks.find(t => t.id === taskId);
+  const task = allTasks.find((t) => t.id === taskId);
 
   if (!task) return;
 
@@ -270,8 +333,8 @@ function changeTask(taskElement) {
 
   function handleEditSubmit(event) {
     event.preventDefault();
-    const taskIndex = allTasks.findIndex(t => t.id === taskId);
-    
+    const taskIndex = allTasks.findIndex((t) => t.id === taskId);
+
     if (taskIndex !== -1) {
       const updatedTask = new Task(
         form.title.value,
@@ -283,26 +346,41 @@ function changeTask(taskElement) {
         form.repeat.value,
         task.checked
       );
-      
+
       allTasks[taskIndex] = updatedTask.fullDetails();
       localStorage.setItem("tasks", JSON.stringify(allTasks));
       filterTask();
       close();
     }
-    
+
     form.removeEventListener("submit", handleEditSubmit);
   }
 }
 
-
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
+  allTasks.map((el) => {
+    let task = new Task(
+      el.title,
+      el.description,
+      el.dueDate,
+      el.priority,
+      el.time,
+      el.endTime,
+      el.repeat,
+      el.checked
+    );
+    return (el.withinDays = task.calculateWithinDays());
+  });
   initializeFlatpickr();
   initializeChoices();
   initializeForm();
   initializeEventListeners();
   filterTask(); // This will handle initial sorting and display
-
+  search();
   document.querySelector(".close").addEventListener("click", close);
-  document.querySelector('.filter').addEventListener('change', filterTask);
+  document.querySelector(".filter").addEventListener("change", filterTask);
 });
+
+
+

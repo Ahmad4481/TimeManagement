@@ -33,6 +33,11 @@ body {
   background-color: #34495e;
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+  right: 0;
+}
+
 .container {
   padding: 0 15px;
   margin: 0 auto;
@@ -69,6 +74,7 @@ a {
 .page {
   background-color: #ccc;
   display: flex;
+  min-height: 100%;
 }
 
 /* Start Aside  */
@@ -143,6 +149,7 @@ label {
 input[type="text"],
 input[type="date"],
 input.time,
+.search,
 select {
   width: 100%;
   padding: 12px;
@@ -171,6 +178,10 @@ input[type="submit"] {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
+}
+
+.filter {
+  margin-bottom: 10px;
 }
 
 input[type="submit"]:hover {
@@ -207,7 +218,11 @@ input[type="submit"]:hover {
   transition: all 0.3s ease;
   overflow: hidden;
   transition: margin-left 0.3s ease;
-  margin-left: 250px;
+  z-index: 1000;
+}
+.label-search {
+  font-size: 1.6rem;
+  margin-left: 5px;
 }
 
 .add-task.sidebar-hidden {
@@ -253,7 +268,7 @@ input[type="submit"]:hover {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease;
   overflow: hidden;
-  height: 1000vh;
+  position: fixed;
 }
 
 .sidebar.hidden {
@@ -320,7 +335,12 @@ main {
   transition: margin-left 0.3s ease;
   padding: 5px;
   flex: 2;
+  margin-left: 250px;
 }
+main.hidden {
+  margin-left: 60px;
+}
+
 
 /* Responsive design for smaller screens */
 
@@ -397,7 +417,16 @@ main {
   border-color: #2c3e50;
 }
 
+.fil {
+  width: calc(100% - 280px);
+  label,input,selcet {
+    width: 100%;
+  }
+}
+
 .task-list {
-  margin-top: 15px;
-  overflow: auto;
+  padding-bottom: 40px;
+  padding-right: 20px;
+  transform: translateY(150px);
+  transition: .3s ease;
 }
