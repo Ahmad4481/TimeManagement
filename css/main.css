@@ -1,10 +1,15 @@
+/* التعديلات الأساسية للـ Responsive Design */
+
+/* Base Styles */
 html {
-  scroll-behavior: smooth;
-  font-size: 10px;
+  font-size: 62.5%; /* يجعل 1rem = 10px */
 }
+
+
 
 body {
   font-family: "Open Sans", serif;
+  overflow-x: hidden;
 }
 
 :root {
@@ -74,7 +79,7 @@ a {
 .page {
   background-color: #ccc;
   display: flex;
-  min-height: 100%;
+  height: 100vh;
 }
 
 /* Start Aside  */
@@ -118,7 +123,7 @@ form.details {
     font-size: 2rem;
     color: black;
     cursor: pointer;
-    transition: .3s ease;
+    transition: 0.3s ease;
     &:hover {
       color: red;
     }
@@ -201,10 +206,8 @@ input[type="submit"]:hover {
 
 .add-task {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #2196f3;
   color: white;
   border: none;
@@ -219,14 +222,15 @@ input[type="submit"]:hover {
   overflow: hidden;
   transition: margin-left 0.3s ease;
   z-index: 1000;
+  left: 5px;
+  bottom: 5px;
 }
 .label-search {
   font-size: 1.6rem;
   margin-left: 5px;
 }
 
-.add-task.sidebar-hidden {
-  margin-left: 60px;
+.add-task.hidden {
 }
 
 .add-task:hover {
@@ -335,12 +339,12 @@ main {
   transition: margin-left 0.3s ease;
   padding: 5px;
   flex: 2;
+  padding-left: 40px;
   margin-left: 250px;
 }
 main.hidden {
   margin-left: 60px;
 }
-
 
 /* Responsive design for smaller screens */
 
@@ -406,7 +410,7 @@ main.hidden {
 
 .del {
   font-size: 2rem;
-  transition: .3s ease;
+  transition: 0.3s ease;
   &:hover {
     color: red;
   }
@@ -418,8 +422,15 @@ main.hidden {
 }
 
 .fil {
-  width: calc(100% - 280px);
-  label,input,selcet {
+  position: fixed;
+  top: 0;
+  border-radius: 0 0 8px 8px;
+  z-index: 100;
+  background-color: #ccc;
+  padding: 10px 0;
+  label,
+  input,
+  selcet {
     width: 100%;
   }
 }
@@ -427,6 +438,195 @@ main.hidden {
 .task-list {
   padding-bottom: 40px;
   padding-right: 20px;
-  transform: translateY(150px);
-  transition: .3s ease;
+  margin-top: 180px;
+}
+
+
+@media (max-width: 768px) {
+  html {
+    font-size: 56.25%; /* يجعل 1rem = 9px */
+  }
+}
+
+/* Sidebar Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    
+  }
+
+  .sidebar.hidden {
+    width: 60px;
+  }
+
+  main {
+    margin-left: 200px;
+  }
+
+  main.hidden {
+    margin-left: 60px;
+  }
+}
+
+/* Form Responsive */
+@media (max-width: 576px) {
+  form.details {
+    width: 90%;
+    padding: 15px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input.time,
+  .search,
+  select {
+    padding: 8px;
+    font-size: 1.4rem;
+  }
+
+  label {
+    font-size: 1.4rem;
+  }
+  .sidebar {
+    width: 150px;
+  }
+
+  
+  main {
+    margin-left: 150px;
+    padding-left: 5px;
+  }
+
+  
+  .add-task {
+    
+  }
+}
+
+/* Task List Responsive */
+@media (max-width: 768px) {
+  .task-list {
+    margin-top: 150px;
+    padding-right: 10px;
+  }
+
+  .task {
+    padding: 15px;
+    font-size: 1.2rem;
+  }
+
+  .task-check {
+    width: 25px;
+    height: 25px;
+  }
+
+  .del {
+    font-size: 1.8rem;
+  }
+}
+
+/* Header Controls Responsive */
+@media (max-width: 768px) {
+  .fil {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .filter,
+  .search {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Add Task Button Responsive */
+
+
+/* Modal Responsive */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 95%;
+    margin: 10px;
+    padding: 15px;
+  }
+}
+
+/* Improved Layout for Small Screens */
+@media (max-width: 480px) {
+  .task {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .task > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .task-title {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+  }
+
+  .task-date {
+    font-size: 1.2rem;
+  }
+}
+
+/* Improved Navigation for Touch Devices */
+@media (hover: none) {
+  .task:hover {
+    transform: none;
+  }
+
+  .add-task:hover {
+    transform: none;
+  }
+
+  .sidebar ul li:hover {
+    background-color: transparent;
+  }
+}
+
+/* Better Spacing for Small Devices */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .task {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Improved Header Layout */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}
+
+/* Better Form Controls for Touch Devices */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="date"],
+  input.time,
+  .search,
+  select,
+  button {
+    min-height: 44px; /* للتوافق مع معايير الوصول */
+  }
 }

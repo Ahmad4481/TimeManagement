@@ -2,7 +2,6 @@ const form = document.querySelector("form.details");
 const addTaskButton = document.querySelector(".add-task");
 const taskListContainer = document.getElementById("tasksContainer");
 let allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
 function filterTask() {
   const filterValue = document.querySelector(".filter").value;
   let filteredTasks;
@@ -212,17 +211,20 @@ function initializeFlatpickr() {
     noCalendar: true,
     dateFormat: "H:i",
     time_24hr: true,
+    disableMobile: true,
   });
   flatpickr("input.end-time", {
     enableTime: true,
     noCalendar: true,
     dateFormat: "H:i",
     time_24hr: true,
+    disableMobile: true,
   });
 
   flatpickr("input.day", {
     dateFormat: "Y-m-d",
     minDate: "today",
+    disableMobile: true,
   });
 
   // Set default value for input.day to today's date
@@ -266,15 +268,11 @@ function search() {
   });
 }
 
-function initializeEventListeners() {
-  addTaskButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    document.querySelector(".overlay").style.display = "block";
-    form.style.display = "block";
-  });
-
-  document.querySelector(".toggle-sidebar")?.addEventListener("click", () => {
+function toggleSidebar() {
+  document.querySelector(".toggle-sidebar").addEventListener("click", () => {
     document.querySelector("aside").classList.toggle("hidden");
+    document.querySelector("main").classList.toggle("hidden");
+    addTaskButton.classList.toggle("hidden");
     document.querySelectorAll("aside li").forEach((el) => {
       el.lastChild.style.fontSize = document
         .querySelector("aside")
@@ -282,7 +280,16 @@ function initializeEventListeners() {
         ? "0"
         : "1.6rem";
     });
-    document.querySelector(".add-task").classList.toggle("sidebar-hidden");
+  });
+}
+
+
+
+function initializeEventListeners() {
+  addTaskButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    document.querySelector(".overlay").style.display = "block";
+    form.style.display = "block";
   });
 
   taskListContainer.addEventListener("click", (event) => {
@@ -378,9 +385,21 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeEventListeners();
   filterTask(); // This will handle initial sorting and display
   search();
+  toggleSidebar();
   document.querySelector(".close").addEventListener("click", close);
   document.querySelector(".filter").addEventListener("change", filterTask);
+  if (document.querySelectorAll("task") > 1) {
+    window.addEventListener("resize", () => {
+      document
+        .querySelectorAll(".fil :where(label,input,.filter)")
+        .forEach((el) => {
+          el.style.width = `${document.querySelector(".task").clientWidth}px`;
+        });
+    });
+    document
+      .querySelectorAll(".fil :where(label,input,.filter)")
+      .forEach((el) => {
+        el.style.width = `${document.querySelector(".task").clientWidth}px`;
+      });
+  }
 });
-
-
-

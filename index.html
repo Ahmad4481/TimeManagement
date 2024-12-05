@@ -30,15 +30,15 @@
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 
-<body style="height: 100vh;">
+<body >
   <div class="page">
     <!-- Sidebar -->
     <button id="toggleSidebar" class="toggle-sidebar"><i class="fas fa-bars"></i></button>
     <aside class="sidebar">
       <ul>
         <li class="active"><a href="#"><i class="fas fa-calendar-day"></i><span>Tasks</span></a></li>
-        <li><a href="#"><i class="far fa-calendar-alt"></i><span>Calendar</span></a></li>
-        <li><a href="#"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
+        <li><a href="clendar.html"><i class="far fa-calendar-alt"></i><span>Calendar</span></a></li>
+        <li><a href="Pomodoro.html"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
       </ul>
     </aside>
     
@@ -61,7 +61,7 @@
   </div>
 
   <!-- Add Task Button -->
-  <button class="add-task add-hidden">+</button>
+  <button class="add-task">+</button>
 
   <!-- Task Form -->
   <form class="details" style="display: none;">
@@ -99,7 +99,7 @@
   <div class="overlay" style="display: none;"></div>
 
   <!-- JavaScript Files -->
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 
