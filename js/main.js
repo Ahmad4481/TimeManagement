@@ -1,9 +1,9 @@
-import {RRule} from './node_modules/rrule/dist/es5/rrule.min.js'
 const form = document.querySelector("form.details");
 const addTaskButton = document.querySelector(".add-task");
 const taskListContainer = document.getElementById("tasksContainer");
 let allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-console.log(new RRule({ freq: RRule.DAILY, dtstart: new Date()  }));
+// console.log(rrule.RRule)
+
 function filterTask() {
   const filterValue = document.querySelector(".filter").value;
   let filteredTasks;
@@ -138,7 +138,14 @@ function createTask(tasks) {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
     taskElement.dataset.taskId = task.id;
-    let border = task.priority === "high"? "red" : task.priority === "medium"? 'yellow' : task.priority === "low"? 'blue': "";
+    let border =
+      task.priority === "high"
+        ? "red"
+        : task.priority === "medium"
+        ? "yellow"
+        : task.priority === "low"
+        ? "blue"
+        : "";
     taskElement.innerHTML = `
       <div>
         <div class="task-title" style="text-decoration: ${
@@ -160,7 +167,7 @@ function createTask(tasks) {
       </div>
     `;
     taskListContainer.appendChild(taskElement);
-    form.reset()
+    form.reset();
   });
 }
 
@@ -172,6 +179,19 @@ function checkTask(taskCheckElement) {
   const taskElement = taskCheckElement.closest(".task");
   const taskId = parseInt(taskElement.dataset.taskId);
   const taskIndex = allTasks.findIndex((task) => task.id === taskId);
+
+  function repeat() {
+    const rule = new rrule.RRule({
+      freq: rrule.RRule.WEEKLY,
+      interval: 1,
+      byweekday: [],
+      dtstart: new Date(),
+      count: 10,
+    });
+
+    console.log(rule.all());
+  }
+  repeat();
 
   if (taskIndex !== -1) {
     allTasks[taskIndex].checked = !allTasks[taskIndex].checked;
