@@ -30,7 +30,7 @@
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 
-<body >
+<body>
   <div class="page">
     <!-- Sidebar -->
     <button id="toggleSidebar" class="toggle-sidebar"><i class="fas fa-bars"></i></button>
@@ -41,7 +41,7 @@
         <li><a href="Pomodoro.html"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
       </ul>
     </aside>
-    
+
     <!-- Main Content -->
     <main>
       <div class="fil" style="position: fixed;">
@@ -72,7 +72,7 @@
     </div>
     <div>
       <label for="day">Due Date</label>
-      <input type="text" class="day" id="day" name="day">
+      <input type="text" class="day" id="day" name="day" value="2024-12-06">
       <label for="priority">Priority</label>
       <select name="priority" id="priority" class="priority">
         <option selected value="none">None</option>
@@ -99,7 +99,9 @@
   <div class="overlay" style="display: none;"></div>
 
   <!-- JavaScript Files -->
-  <script type="module" src="js/main.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/rrule@2.8.1/dist/es5/rrule.min.js"></script>
+  <script  src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 

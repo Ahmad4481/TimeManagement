@@ -1,7 +1,9 @@
+import {RRule} from './node_modules/rrule/dist/es5/rrule.min.js'
 const form = document.querySelector("form.details");
 const addTaskButton = document.querySelector(".add-task");
 const taskListContainer = document.getElementById("tasksContainer");
 let allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+console.log(new RRule({ freq: RRule.DAILY, dtstart: new Date()  }));
 function filterTask() {
   const filterValue = document.querySelector(".filter").value;
   let filteredTasks;
@@ -136,7 +138,7 @@ function createTask(tasks) {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
     taskElement.dataset.taskId = task.id;
-
+    let border = task.priority === "high"? "red" : task.priority === "medium"? 'yellow' : task.priority === "low"? 'blue': "";
     taskElement.innerHTML = `
       <div>
         <div class="task-title" style="text-decoration: ${
@@ -151,13 +153,14 @@ function createTask(tasks) {
     }) ${task.time}</div>
       </div>
       <div>
-        <div class="task-check ${task.checked ? "checked" : ""}">
+        <div class="task-check ${task.checked ? "checked" : ""} ${border}">
           <i class="fas fa-check"></i>
         </div>
         <i class="del fa-solid fa-trash-can"></i>
       </div>
     `;
     taskListContainer.appendChild(taskElement);
+    form.reset()
   });
 }
 
@@ -242,10 +245,11 @@ function initializeChoices() {
     searchEnabled: false,
     itemSelectText: "",
   });
+  new Choices(".filter", {
+    searchEnabled: false,
+    itemSelectText: "",
+  });
 }
-document.body.addEventListener("", () => {
-  console.log("0");
-});
 function search() {
   const searchInput = document.querySelector("#search");
   searchInput.addEventListener("keyup", (event) => {
@@ -282,8 +286,6 @@ function toggleSidebar() {
     });
   });
 }
-
-
 
 function initializeEventListeners() {
   addTaskButton.addEventListener("click", (event) => {

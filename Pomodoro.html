@@ -21,130 +21,6 @@
   <link rel="stylesheet" href="css/all.min.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/framework.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-  <!-- Include Choices.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-  <style>
-    .pomodoro-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.timer-display {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.time {
-  font-size: 8rem;
-  font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 30px;
-}
-
-.timer-controls {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.timer-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: none;
-  background: #2196f3;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.timer-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.timer-btn:hover:not(:disabled) {
-  transform: scale(1.1);
-  background: #1976d2;
-}
-
-.timer-modes {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 30px 0;
-}
-
-.mode-btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 25px;
-  background: #f5f5f5;
-  color: #333;
-  font-size: 1.6rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.mode-btn.active {
-  background: #2196f3;
-  color: white;
-}
-
-.timer-settings {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-.setting {
-  margin-bottom: 15px;
-}
-
-.setting label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1.4rem;
-  color: #666;
-}
-
-.setting input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1.6rem;
-}
-
-@media (max-width: 768px) {
-  .pomodoro-container {
-    margin: 20px;
-  }
-
-  .time {
-    font-size: 6rem;
-  }
-
-  .timer-modes {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .mode-btn {
-    width: 100%;
-  }
-}
-
-  </style>
-  <!-- Include Choices.js JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 
 <body>
@@ -154,7 +30,7 @@
       <ul>
         <li><a href="index.html"><i class="fas fa-calendar-day"></i><span>Tasks</span></a></li>
         <li><a href="clendar.html"><i class="far fa-calendar-alt"></i><span>Calendar</span></a></li>
-        <li><a href="Pomodoro.html" class="active"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
+        <li class="active"><a href="Pomodoro.html" class="active"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
       </ul>
     </aside>
     <main>
@@ -201,7 +77,6 @@
 
   </div>
   <script src="js/pomodoro.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 
 </html>
