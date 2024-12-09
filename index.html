@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="description" content="Best time management application">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Time Management</title>
+  <title>Time Manger</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,13 +14,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
     rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="css/all.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/framework.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Include Choices.js CSS -->
@@ -28,6 +24,755 @@
 
   <!-- Include Choices.js JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      font-family: "Open Sans", serif;
+      overflow-x: hidden;
+    }
+
+    :root {
+      --main-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+
+    ul {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .page {
+      background-color: #ccc;
+      display: flex;
+      height: 100vh;
+    }
+
+    aside {
+      width: 80px;
+      height: 100%;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9998;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .repeat {
+        z-index: 10000;
+      }
+    }
+
+    form.details {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+    }
+
+    i.close {
+      position: absolute;
+      top: 7px;
+      left: 7px;
+      font-size: 2rem;
+      color: black;
+      cursor: pointer;
+      transition: 0.3s ease;
+
+      &:hover {
+        color: red;
+      }
+    }
+
+    form.details h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4facfe;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    form.details>div {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input.time,
+    .search,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+      border-color: #4facfe;
+      outline: none;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .filter {
+      margin-bottom: 10px;
+    }
+
+    .choices__inner {
+      border-radius: 8px;
+    }
+
+    input[type="submit"]:hover {
+      background: #00c2f2;
+    }
+
+    @media (max-width: 500px) {
+      form.details {
+        padding: 20px;
+      }
+
+      input[type="submit"] {
+        font-size: 16px;
+      }
+    }
+
+    .add-task {
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 3.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      transition: margin-left 0.3s ease;
+      z-index: 1000;
+      left: 5px;
+      bottom: 5px;
+    }
+
+    .label-search {
+      font-size: 1.6rem;
+      margin-left: 5px;
+    }
+
+    .add-task:hover {
+      background-color: #1976d2;
+      transform: scale(1.05);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .add-task:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-task::before {
+      content: "+";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .add-task:hover::before {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 250px;
+      background-color: #2c3e50;
+      left: 0;
+      top: 0;
+      padding-top: 60px;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: 0.3s ease;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    .sidebar.hidden {
+      width: 60px;
+    }
+
+    .sidebar ul {
+      width: 100%;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      border-bottom: 1px solid #34495e;
+      transition: background-color 0.3s ease;
+      height: 52.4px;
+    }
+
+    .sidebar ul li:hover,
+    .sidebar ul li.active {
+      background-color: #34495e;
+    }
+
+    .sidebar ul li a {
+      color: #ecf0f1;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar ul li a i {
+      margin-right: 15px;
+      font-size: 1.8rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .toggle-sidebar {
+      position: fixed;
+      top: 7.5px;
+      left: 7.5px;
+      z-index: 1001;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-sidebar:hover {
+      background-color: #34495e;
+    }
+
+    /* Adjust main content */
+    main {
+      transition: margin-left 0.3s ease;
+      padding: 5px;
+      flex: 2;
+      padding-left: 40px;
+      margin-left: 250px;
+      overflow-y: auto;
+    }
+
+    main.hidden {
+      margin-left: 60px;
+    }
+
+
+    .task {
+      background-color: #f9f9f9;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.4rem;
+      align-items: center;
+    }
+
+    .task:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .task>div:last-child {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .task-check {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      text-decoration: none !important;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .task-check.checked {
+      background-color: #2d5061;
+      border-color: #2c3e50;
+    }
+
+    .task-check i:first-child {
+      display: none;
+      color: white;
+      font-size: 18px;
+    }
+
+    .task-check.checked i:first-child {
+      display: block;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .del {
+      font-size: 2rem;
+      transition: 0.3s ease;
+
+      &:hover {
+        color: red;
+      }
+    }
+
+    .task-check:hover {
+      border-color: #2c3e50;
+    }
+
+    .fil {
+      padding-right: 20px;
+    }
+
+    .task-list {
+      padding-bottom: 40px;
+      padding-right: 20px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      html {
+        font-size: 56.25%;
+      }
+    }
+
+    /* Sidebar Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .sidebar.hidden {
+        width: 60px;
+      }
+
+      main {
+        margin-left: 200px;
+      }
+
+      main.hidden {
+        margin-left: 60px;
+      }
+    }
+
+    /* Form Responsive */
+    @media (max-width: 576px) {
+      form.details {
+        width: 90%;
+        padding: 15px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input.time,
+      .search,
+      select {
+        padding: 8px;
+        font-size: 1.4rem;
+      }
+
+      label {
+        font-size: 1.4rem;
+      }
+
+      .sidebar {
+        width: 150px;
+      }
+
+      main {
+        margin-left: 150px;
+        padding-left: 5px;
+      }
+
+    }
+
+    /* Task List Responsive */
+    @media (max-width: 768px) {
+      .task-list {
+        padding-right: 10px;
+      }
+
+      .task {
+        padding: 15px;
+        font-size: 1.2rem;
+      }
+
+      .task-check {
+        width: 25px;
+        height: 25px;
+      }
+
+      .del {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* Header Controls Responsive */
+    @media (max-width: 768px) {
+      .fil {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .filter,
+      .search {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+
+    /* Add Task Button Responsive */
+
+    /* Modal Responsive */
+    @media (max-width: 576px) {
+      .modal-content {
+        width: 95%;
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+
+    /* Improved Layout for Small Screens */
+    @media (max-width: 480px) {
+      .task {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .task>div:last-child {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .task-title {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+      }
+
+      .task-date {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Improved Navigation for Touch Devices */
+    @media (hover: none) {
+      .task:hover {
+        transform: none;
+      }
+
+      .add-task:hover {
+        transform: none;
+      }
+
+      .sidebar ul li:hover {
+        background-color: transparent;
+      }
+    }
+
+    /* Better Spacing for Small Devices */
+    @media (max-width: 360px) {
+      .container {
+        padding: 0 10px;
+      }
+
+      .task {
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+    }
+
+    /* Improved Header Layout */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
+    }
+
+    /* Better Form Controls for Touch Devices */
+    @media (max-width: 768px) {
+
+      input[type="text"],
+      input[type="date"],
+      input.time,
+      .search,
+      select,
+      button {
+        min-height: 44px;
+      }
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .pomodoro-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .timer-display {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .time {
+      font-size: 8rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .timer-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: #2196f3;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .timer-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .timer-btn:hover:not(:disabled) {
+      transform: scale(1.1);
+      background: #1976d2;
+    }
+
+    .timer-modes {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .mode-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      background: #f5f5f5;
+      color: #333;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mode-btn.active {
+      background: #2196f3;
+      color: white;
+    }
+
+    .timer-settings {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .setting {
+      margin-bottom: 15px;
+    }
+
+    .setting label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+      color: #666;
+    }
+
+    .setting input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1.6rem;
+    }
+
+    @media (max-width: 768px) {
+      .pomodoro-container {
+        margin: 20px;
+      }
+
+      .time {
+        font-size: 6rem;
+      }
+
+      .timer-modes {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .mode-btn {
+        width: 100%;
+      }
+    }
+
+    .custom-repeat {
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      position: absolute;
+      z-index: 99999;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+    }
+
+    .repeat-frequency {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .repeat-frequency input {
+      width: 60px;
+    }
+
+    .weekdays {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .weekdays label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .repeat-end {
+      margin-top: 15px;
+    }
+
+    .repeat-end>div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .repeat-end label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .repeat-end input[type="number"],
+    .repeat-end input[type="date"] {
+      width: 120px;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,14 +782,13 @@
     <aside class="sidebar">
       <ul>
         <li class="active"><a href="#"><i class="fas fa-calendar-day"></i><span>Tasks</span></a></li>
-        <li><a href="clendar.html"><i class="far fa-calendar-alt"></i><span>Calendar</span></a></li>
         <li><a href="Pomodoro.html"><i class="fas fa-clock"></i><span>Pomodoro</span></a></li>
       </ul>
     </aside>
 
     <!-- Main Content -->
     <main>
-      <div class="fil" style="position: fixed;">
+      <div class="fil">
         <select class="filter">
           <option value="all">All Tasks</option>
           <option value="today">Today</option>
@@ -72,7 +816,7 @@
     </div>
     <div>
       <label for="day">Due Date</label>
-      <input type="text" class="day" id="day" name="day" value="2024-12-06">
+      <input type="text" class="day" id="day" name="day">
       <label for="priority">Priority</label>
       <select name="priority" id="priority" class="priority">
         <option selected value="none">None</option>
@@ -90,6 +834,8 @@
         <option value="daily">Daily</option>
         <option value="weekly">Weekly</option>
         <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+        <option value="custom">Custom</option>
       </select>
       <input type="submit" value="Send">
     </div>
@@ -97,12 +843,815 @@
 
   <!-- Overlay -->
   <div class="overlay" style="display: none;"></div>
+  <div class="custom-repeat" style="display: none;">
+    <i class="close fa-solid fa-circle-xmark"></i>
+    <div class="repeat-frequency" style="padding-top: 20px;">
+      <label>Repeat Every:</label>
+      <input type="number" min="1" value="1" id="repeatInterval">
+      <select id="repeatFreq">
+        <option value="DAILY">Day(s)</option>
+        <option value="WEEKLY">Week(s)</option>
+        <option value="MONTHLY">Month(s)</option>
+        <option value="YEARLY">Year(s)</option>
+      </select>
+    </div>
+
+
+    <div class="weekdays-select" style="display: none;">
+      <label>On these days:</label>
+      <div class="weekdays">
+        <label><input type="checkbox" value="SU">Sun</label>
+        <label><input type="checkbox" value="MO">Mon</label>
+        <label><input type="checkbox" value="TU">Tue</label>
+        <label><input type="checkbox" value="WE">Wed</label>
+        <label><input type="checkbox" value="TH">Thu</label>
+        <label><input type="checkbox" value="FR">Fri</label>
+        <label><input type="checkbox" value="SA">Sat</label>
+      </div>
+    </div>
+    <select class="month-select" style="display: none;">
+      <option value=""></option>
+      <option value=""></option>
+    </select>
+    <div class="repeat-end">
+      <label>Ends:</label>
+      <div>
+        <label><input type="radio" name="endType" value="never" checked> Never</label>
+        <label><input type="radio" name="endType" value="after"> After
+          <input type="number" id="occurences" min="1" value="1" disabled> occurrences</label>
+        <label><input type="radio" name="endType" value="on"> On
+          <input type="date" id="endDate" disabled></label>
+      </div>
+      <input type="submit" value="Save" class="submit-repeat">
+    </div>
+  </div>
+
+
 
   <!-- JavaScript Files -->
-  
+
   <script src="https://cdn.jsdelivr.net/npm/rrule@2.8.1/dist/es5/rrule.min.js"></script>
-  <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    const form = document.querySelector("form.details");
+    const addTaskButton = document.querySelector(".add-task");
+    const taskListContainer = document.getElementById("tasksContainer");
+    let allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    function filterTask() {
+      const filterValue = document.querySelector(".filter").value;
+      let filteredTasks;
+
+      switch (filterValue) {
+        case "today":
+          filteredTasks = allTasks.filter(
+            (task) =>
+              new Date(task.dueDate).toDateString() === new Date().toDateString()
+          );
+          break;
+        case "later":
+          filteredTasks = allTasks.filter((task) => {
+            let end = new Date().setHours(
+              task.endTime.split(":")[0],
+              task.endTime.split(":")[1]
+            );
+            let start = new Date().setHours(
+              task.time.split(":")[0],
+              task.time.split(":")[1]
+            );
+            if (!isNaN(end) || !isNaN(start))
+              return end >= new Date() || start >= new Date();
+
+            return (
+              new Date(task.dueDate).toDateString() > new Date().toDateString()
+            );
+          });
+          break;
+        case "completed":
+          filteredTasks = allTasks.filter((task) => task.checked);
+          break;
+        case "missed":
+          filteredTasks = allTasks.filter((task) => {
+            let end = new Date().setHours(
+              task.endTime.split(":")[0],
+              task.endTime.split(":")[1]
+            );
+            let start = new Date().setHours(
+              task.time.split(":")[0],
+              task.time.split(":")[1]
+            );
+            if (!isNaN(end) || !isNaN(start))
+              return (end <= new Date() || start <= new Date()) && !task.checked;
+            return (
+              new Date(task.dueDate).toDateString() > new Date().toDateString()
+            );
+          });
+          break;
+        default:
+          filteredTasks = allTasks;
+      }
+
+      sortTasks(filteredTasks);
+      createTask(filteredTasks);
+    }
+
+    class Task {
+      constructor(
+        title,
+        description,
+        dueDate,
+        priority,
+        time = "",
+        endTime = "",
+        repeat = "none",
+        checked = false,
+        rrule = null,
+        rruleValue = null,
+        customRepeatSettings = null
+      ) {
+        this.id = Date.now();
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.time = time;
+        this.endTime = endTime;
+        this.repeat = repeat;
+        this.checked = checked;
+        this.rrule = rrule;
+        this.rruleValue = rruleValue;
+        this.customRepeatSettings = customRepeatSettings
+      }
+
+      fullDetails() {
+        return {
+          id: this.id,
+          title: this.title,
+          description: this.description,
+          dueDate: this.dueDate,
+          priority: this.priority,
+          withinDays: this.calculateWithinDays(),
+          time: this.time,
+          endTime: this.endTime,
+          repeat: this.repeat,
+          checked: this.checked,
+          rrule: this.rrule,
+          rruleValue: this.rruleValue,
+          customRepeatSettings: this.customRepeatSettings
+        };
+      }
+
+
+      calculateWithinDays() {
+        return Math.floor(
+          (new Date(new Date(this.dueDate).setHours(0, 0, 0, 0)) -
+            new Date(new Date().setHours(0, 0, 0, 0))) /
+          (1000 * 60 * 60 * 24)
+        );
+      }
+
+      addTask() {
+        allTasks.push(this.fullDetails());
+        localStorage.setItem("tasks", JSON.stringify(allTasks));
+        filterTask();
+      }
+    }
+
+    function sortTasks(tasks) {
+      return tasks.sort((a, b) => {
+        const dateDiff = new Date(a.dueDate) - new Date(b.dueDate);
+        if (dateDiff !== 0) return dateDiff;
+
+        const today = new Date().toISOString().split("T")[0];
+        const aTime = a.time
+          ? new Date(`${today}T${a.time}`)
+          : new Date(`${today}T00:00`);
+        const bTime = b.time
+          ? new Date(`${today}T${b.time}`)
+          : new Date(`${today}T00:00`);
+        const timeDiff = aTime - bTime;
+        if (timeDiff !== 0) return timeDiff;
+
+        return b.priority - a.priority;
+      });
+    }
+
+    function createTask(tasks) {
+      taskListContainer.innerHTML = "";
+      tasks.forEach((task) => {
+        const taskElement = document.createElement("div");
+        taskElement.classList.add("task");
+        taskElement.dataset.taskId = task.id;
+        let border =
+          task.priority === "high"
+            ? "red"
+            : task.priority === "medium"
+              ? "yellow"
+              : task.priority === "low"
+                ? "blue"
+                : "";
+        taskElement.innerHTML = `
+        <div>
+          <div class="task-title" style="text-decoration: ${task.checked ? "line-through" : "none"
+          }">${task.title}</div>
+          <div class="task-date">${task.dueDate} (${task.withinDays > 0
+            ? `days remaining: ${task.withinDays}`
+            : task.withinDays < 0
+              ? `days passed: ${Math.abs(task.withinDays)}`
+              : `Today`
+          }) ${task.time} ${task.endTime && task.endTime !== "" ? `- ${task.endTime}` : ""
+          }
+      ${task.rruleValue !== null ? `<div>${task.rruleValue}</div>` : ''}
+      </div>
+        </div>
+        <div>
+          <div class="task-check ${task.checked ? "checked" : ""}" style="border-color: ${border}">
+            <i class="fas fa-check"></i>
+          </div>
+          <i class="del fa-solid fa-trash-can"></i>
+        </div>
+      `;
+        taskListContainer.appendChild(taskElement);
+        form.reset();
+      });
+    }
+
+    function checkTask(taskCheckElement) {
+      if (taskCheckElement.classList.contains("fa-check")) {
+        taskCheckElement = taskCheckElement.parentElement;
+      }
+
+      const taskElement = taskCheckElement.closest(".task");
+      const taskId = parseInt(taskElement.dataset.taskId);
+      const taskIndex = allTasks.findIndex((task) => task.id === taskId);
+
+      if (taskIndex !== -1) {
+        const task = allTasks[taskIndex];
+        if (task.rrule && !task.checked) {
+          const nextTask = { ...task };
+          const rruleObj = rrule.RRule.fromString(task.rrule);
+          const nextDate = rruleObj.after(new Date(task.dueDate));
+          if (nextDate) {
+            nextTask.id = Date.now();
+            nextTask.dueDate = nextDate.toISOString().split('T')[0];
+            nextTask.checked = false;
+            nextTask.withinDays = Math.floor(
+              (new Date(nextDate) - new Date()) / (1000 * 60 * 60 * 24)
+            );
+            allTasks.push(nextTask);
+          }
+        }
+
+        task.checked = !task.checked;
+
+        localStorage.setItem("tasks", JSON.stringify(allTasks));
+        filterTask();
+      }
+    }
+
+
+    function del(taskElement) {
+      const taskId = parseInt(taskElement.dataset.taskId);
+      allTasks = allTasks.filter((task) => task.id !== taskId);
+      localStorage.setItem("tasks", JSON.stringify(allTasks));
+      filterTask();
+    }
+
+
+    function initializeForm() {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        let rruleObj = null;
+        let rruleValue = null;
+        let customRepeatSettings = null;
+
+        if (form.repeat.value === 'custom') {
+          const ruleData = createRRule();
+          if (ruleData) {
+            rruleObj = ruleData.rruleObj.toString();
+            rruleValue = createValue(ruleData.rruleObj);
+            customRepeatSettings = ruleData.settings;
+          }
+        }
+
+        else if (form.repeat.value === 'daily') {
+          rruleObj = 'FREQ=DAILY';
+          rruleValue = 'daily';
+        }
+        else if (form.repeat.value === 'weekly') {
+          rruleObj = 'FREQ=WEEKLY';
+          rruleValue = 'weekly';
+        }
+        else if (form.repeat.value === 'monthly') {
+          rruleObj = 'FREQ=MONTHLY';
+          rruleValue = 'monthly';
+        }
+        else if (form.repeat.value === 'yearly') {
+          rruleObj = 'FREQ=YEARLY';
+          rruleValue = 'yearly';
+        }
+
+        const newTask = new Task(
+          form.title.value,
+          form.description.value,
+          form.day.value,
+          form.priority.value,
+          form.time.value,
+          form.endTime.value,
+          form.repeat.value,
+          false,
+          rruleObj,
+          rruleValue,
+          customRepeatSettings
+        );
+
+        newTask.addTask();
+        close();
+      });
+    }
+
+
+    // Add these functions to your code
+
+    function initializeFlatpickr() {
+      flatpickr("input.time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        disableMobile: true,
+      });
+      flatpickr("input.end-time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        disableMobile: true,
+      });
+
+      flatpickr("input.day", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disableMobile: true,
+      });
+
+      // Set default value for input.day to today's date
+      const today = new Date().toISOString().split("T")[0];
+      document.querySelector("input.day").value = today;
+    }
+
+    function initializeChoices() {
+      new Choices("#priority", {
+        searchEnabled: false,
+        itemSelectText: "",
+      });
+
+      new Choices("#repeat", {
+        searchEnabled: false,
+        itemSelectText: "",
+      });
+      new Choices(".filter", {
+        searchEnabled: false,
+        itemSelectText: "",
+      });
+    }
+    function search() {
+      const searchInput = document.querySelector("#search");
+      searchInput.addEventListener("keyup", (event) => {
+        if (searchInput.value.trim() !== "") {
+          const filteredTasks = allTasks.filter((task) => {
+            return task.title
+              .toLowerCase()
+              .includes(searchInput.value.toLowerCase());
+          });
+          sortTasks(filteredTasks);
+          createTask(filteredTasks);
+        } else {
+          const filteredTasks = allTasks.filter((task) => {
+            return true;
+          });
+          sortTasks(filteredTasks);
+          createTask(filteredTasks);
+        }
+      });
+    }
+
+    function toggleSidebar() {
+      document.querySelector(".toggle-sidebar").addEventListener("click", () => {
+        document.querySelector("aside").classList.toggle("hidden");
+        document.querySelector("main").classList.toggle("hidden");
+        addTaskButton.classList.toggle("hidden");
+        document.querySelectorAll("aside li").forEach((el) => {
+          el.lastChild.style.fontSize = document
+            .querySelector("aside")
+            .classList.contains("hidden")
+            ? "0"
+            : "1.6rem";
+        });
+      });
+    }
+
+    function initializeEventListeners() {
+      addTaskButton.addEventListener("click", (event) => {
+        form.day.value = new Date().toISOString().split("T")[0];
+        event.preventDefault();
+        document.querySelector(".overlay").style.display = "block";
+        form.style.display = "block";
+      });
+
+      taskListContainer.addEventListener("click", (event) => {
+        const target = event.target;
+
+        if (target.classList.contains("del")) {
+          del(target.closest(".task"));
+        } else if (
+          target.classList.contains("task-check") ||
+          target.classList.contains("fa-check")
+        ) {
+          checkTask(target);
+        } else if (
+          target.closest(".task") &&
+          !target.classList.contains("task-check") &&
+          !target.classList.contains("del")
+        ) {
+          changeTask(target.closest(".task"));
+        }
+      });
+    }
+
+    function close() {
+      document.querySelector(".overlay").style.display = "none";
+      form.style.display = "none";
+    }
+
+    function changeTask(taskElement) {
+      const taskId = parseInt(taskElement.dataset.taskId);
+      const task = allTasks.find((t) => t.id === taskId);
+
+      if (!task) return;
+
+      document.querySelector(".overlay").style.display = "block";
+      form.style.display = "block";
+
+      // Populate form with task details
+      form.title.value = task.title;
+      form.description.value = task.description;
+      form.day.value = task.dueDate;
+      form.priority.value = task.priority;
+      form.time.value = task.time;
+      form.repeat.value = task.repeat;
+      form.endTime.value = task.endTime;
+
+      if (task.repeat === 'custom' && task.customRepeatSettings) {
+        const settings = task.customRepeatSettings;
+        const customRepeatDiv = document.querySelector('.custom-repeat');
+
+        customRepeatDiv.style.display = 'block';
+
+        document.querySelector('#repeatInterval').value = settings.frequency.interval;
+        document.querySelector('#repeatFreq').value = settings.frequency.freq;
+
+        document.querySelectorAll('.weekdays input').forEach(checkbox => {
+          checkbox.checked = settings.weekdays.includes(checkbox.value);
+        });
+
+        if (settings.monthlyOption) {
+          document.querySelector('.month-select').value = settings.monthlyOption;
+        }
+
+        const endType = document.querySelector(`input[name="endType"][value="${settings.endSettings.type}"]`);
+        if (endType) {
+          endType.checked = true;
+
+          if (settings.endSettings.type === 'after') {
+            const occurencesInput = document.querySelector('#occurences');
+            occurencesInput.disabled = false;
+            occurencesInput.value = settings.endSettings.occurences;
+          } else if (settings.endSettings.type === 'on') {
+            const endDateInput = document.querySelector('#endDate');
+            endDateInput.disabled = false;
+            endDateInput.value = settings.endSettings.endDate;
+          }
+        }
+
+        const weekdaysDiv = document.querySelector('.weekdays-select');
+        const monthSelect = document.querySelector('.month-select');
+
+        if (settings.frequency.freq === 'WEEKLY') {
+          weekdaysDiv.style.display = 'block';
+          monthSelect.style.display = 'none';
+        } else if (settings.frequency.freq === 'MONTHLY') {
+          monthSelect.style.display = 'block';
+          weekdaysDiv.style.display = 'none';
+        } else {
+          weekdaysDiv.style.display = 'none';
+          monthSelect.style.display = 'none';
+        }
+      }
+
+      // Remove existing submit event listener and add a new one
+      form.removeEventListener("submit", handleEditSubmit);
+      form.addEventListener("submit", handleEditSubmit);
+
+      function handleEditSubmit(event) {
+        event.preventDefault();
+        const taskIndex = allTasks.findIndex((t) => t.id === taskId);
+
+        if (taskIndex !== -1) {
+          let rruleObj = null;
+          let rruleValue = null;
+          let customRepeatSettings = null;
+
+          if (form.repeat.value === 'custom') {
+            const ruleData = createRRule();
+            if (ruleData) {
+              rruleObj = ruleData.rruleObj.toString();
+              rruleValue = createValue(ruleData);
+              customRepeatSettings = ruleData.settings;
+            }
+          }
+
+          const updatedTask = new Task(
+            form.title.value,
+            form.description.value,
+            form.day.value,
+            form.priority.value,
+            form.time.value,
+            form.endTime.value,
+            form.repeat.value,
+            task.checked,
+            rruleObj,
+            rruleValue,
+            customRepeatSettings
+          );
+
+          allTasks[taskIndex] = updatedTask.fullDetails();
+          localStorage.setItem("tasks", JSON.stringify(allTasks));
+          filterTask();
+          close();
+        }
+
+        form.removeEventListener("submit", handleEditSubmit);
+      }
+    }
+
+
+    // Initialize the application
+    document.addEventListener("DOMContentLoaded", function () {
+      allTasks.map((el) => {
+        let task = new Task(
+          allTasks.map((el) => {
+            let task = new Task(
+              el.title,
+              el.description,
+              el.dueDate,
+              el.priority,
+              el.time,
+              el.endTime,
+              el.repeat,
+              el.checked,
+              el.rrule,
+              el.rruleValue
+            );
+            return (el.withinDays = task.calculateWithinDays());
+          })
+        );
+        return (el.withinDays = task.calculateWithinDays());
+      });
+      initializeFlatpickr();
+      initializeChoices();
+      initializeForm();
+      initializeEventListeners();
+      filterTask(); // This will handle initial sorting and display
+      search();
+      toggleSidebar();
+      document.querySelectorAll(".close")[0].addEventListener("click", close);
+      document.querySelectorAll(".close")[1].addEventListener("click", () => document.querySelector('.custom-repeat').style.display = 'none');
+      document.querySelector(".filter").addEventListener("change", filterTask);
+      if (document.querySelectorAll("task") > 1) {
+        window.addEventListener("resize", () => {
+          document
+            .querySelectorAll(".fil :where(label,input,.filter)")
+            .forEach((el) => {
+              el.style.width = `${document.querySelector(".task").clientWidth}px`;
+            });
+        });
+        document
+          .querySelectorAll(".fil :where(label,input,.filter)")
+          .forEach((el) => {
+            el.style.width = `${document.querySelector(".task").clientWidth}px`;
+          });
+      }
+    });
+
+    function ordinalNumber(n) {
+      const suffixes = ["th", "st", "nd", "rd"];
+      const value = n % 100;
+      const suffix = value >= 11 && value <= 13 ? "th" : suffixes[(value % 10)] || "th";
+      return `${n}${suffix}`;
+    }
+
+    function getNthDayOfMonth(year, month, day) {
+      let count = 1;
+      const date = new Date(`${year}-${month}-${1}`);
+      while (date.getDate() <= day) {
+        if (daysOfWeek[date.getDay()] == daysOfWeek[new Date(year - month - day).getDay()]) {
+          count++;
+        }
+        date.setDate(date.getDate() + 1);
+      }
+      return count;
+    }
+
+    document.querySelector('#repeat').addEventListener('change', function (e) {
+      const customRepeatDiv = document.querySelector('.custom-repeat');
+      const weekdaysDiv = document.querySelector('.weekdays-select');
+
+      if (e.target.value === 'custom') {
+        customRepeatDiv.style.display = 'block';
+      } else {
+        customRepeatDiv.style.display = 'none';
+      }
+    });
+
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    document.querySelector('#repeatFreq').addEventListener('change', function (e) {
+      const weekdaysDiv = document.querySelector('.weekdays-select');
+      const monthSelect = document.querySelector('.month-select');
+
+      if (e.target.value === 'WEEKLY') {
+        weekdaysDiv.style.display = 'block';
+        monthSelect.style.display = 'none';
+      } else if (e.target.value === 'MONTHLY') {
+        monthSelect.style.display = 'block';
+        let date = form.day.value.split('-')
+        monthSelect.firstElementChild.innerHTML = `Monthly on the ${ordinalNumber(date[2] < 10 ? date[2][1] : date[2])}`;
+        monthSelect.firstElementChild.value = `Monthly on the ${ordinalNumber(date[2] < 10 ? date[2][1] : date[2])}`;
+        monthSelect.lastElementChild.innerHTML = `The ${ordinalNumber(getNthDayOfMonth(date[0], date[1], date[2]))} ${daysOfWeek[new Date(`${date[0]}-${date[1]}-${date[2]}`).getDay()]} of every month`
+        monthSelect.lastElementChild.value = `The ${ordinalNumber(getNthDayOfMonth(date[0], date[1], date[2]))} ${daysOfWeek[new Date(`${date[0]}-${date[1]}-${date[2]}`).getDay()]} of every month`
+        weekdaysDiv.style.display = 'none';
+      } else {
+        weekdaysDiv.style.display = 'none';
+        monthSelect.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('input[name="endType"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        const occurencesInput = document.querySelector('#occurences');
+        const endDateInput = document.querySelector('#endDate');
+        occurencesInput.disabled = this.value !== 'after';
+        endDateInput.disabled = this.value !== 'on';
+      });
+    });
+
+    function createRRule() {
+      if (form.repeat.value !== 'custom') return null;
+
+      const settings = {
+        frequency: {
+          freq: document.querySelector('#repeatFreq').value,
+          interval: parseInt(document.querySelector('#repeatInterval').value)
+        },
+        weekdays: Array.from(document.querySelectorAll('.weekdays input:checked'))
+          .map(cb => cb.value),
+        monthlyOption: document.querySelector('.month-select').value,
+        endSettings: {
+          type: document.querySelector('input[name="endType"]:checked').value,
+          occurences: document.querySelector('#occurences').value,
+          endDate: document.querySelector('#endDate').value
+        }
+      };
+
+      let options = {
+        freq: rrule.RRule[settings.frequency.freq],
+        interval: settings.frequency.interval,
+        dtstart: new Date(form.day.value)
+      };
+
+      if (settings.frequency.freq === 'WEEKLY' && settings.weekdays.length) {
+        options.byweekday = settings.weekdays.map(day => rrule.RRule[day]);
+      }
+      else if (settings.frequency.freq === 'MONTHLY') {
+        if (settings.monthlyOption === document.querySelector('.month-select').firstElementChild.value) {
+          options.bymonthday = parseInt(form.day.value.split('-')[2]);
+        }
+      }
+
+      if (settings.endSettings.type === 'after') {
+        options.count = parseInt(settings.endSettings.occurences);
+      } else if (settings.endSettings.type === 'on') {
+        options.until = new Date(settings.endSettings.endDate);
+      }
+
+
+      return {
+        rruleObj: new rrule.RRule(options),
+        settings: settings
+      };
+    }
+
+    document.querySelector('.submit-repeat').addEventListener('click', function (e) {
+      document.querySelector('.custom-repeat').style.display = 'none';
+    })
+
+
+    function createValue(rrule) {
+      if (!rrule) return '';
+      console.log(rrule)
+      if (rrule.options === undefined) {
+        rrule = rrule.rruleObj;
+      };
+      let value = `repeat every ${rrule.options.interval || 1} `;
+
+      const freqNames = {
+        0: 'year',
+        1: 'month',
+        2: 'week',
+        3: 'day',
+      };
+
+      if (document.querySelector('#repeatFreq').value === 'MONTHLY') {
+        value += document.querySelector('.month-select').value;
+      }
+      else if (document.querySelector('#repeatFreq').value === "WEEKLY") {
+        const byweekday = Array.from(document.querySelectorAll('.weekdays input'))
+          .map((cb, i) => {
+            if (cb.checked) {
+              return daysOfWeek[i]
+            }
+          }).filter((d) => d).join(', ')
+        value += `week on ${byweekday}`;
+      }
+      else {
+        const freqName = freqNames[rrule.options.freq];
+        value += freqName;
+        if (rrule.options.interval > 1) {
+          value += 's';
+        }
+      }
+
+      const endType = document.querySelector('input[name="endType"]:checked').value;
+      if (endType === 'after') {
+        const occurrences = document.querySelector('#occurences').value;
+        value += ` for ${occurrences} times`;
+      } else if (endType === 'on') {
+        const endDate = document.querySelector('#endDate').value;
+        value += ` until ${endDate}`;
+      }
+
+      return value;
+    }
+
+
+
+    form.day.addEventListener('change', function (e) {
+      if (form.repeat.value === 'custom') {
+        updateRepeatOptions();
+      }
+    });
+
+    function updateRepeatOptions() {
+      const date = form.day.value.split('-');
+      const monthSelect = document.querySelector('.month-select');
+      const repeatFreq = document.querySelector('#repeatFreq').value;
+
+      if (repeatFreq === 'MONTHLY') {
+        monthSelect.firstElementChild.innerHTML = `Monthly on the ${ordinalNumber(date[2] < 10 ? date[2][1] : date[2])}`;
+        monthSelect.firstElementChild.value = `Monthly on the ${ordinalNumber(date[2] < 10 ? date[2][1] : date[2])}`;
+
+        const nthDay = getNthDayOfMonth(date[0], date[1], date[2]);
+        const dayName = daysOfWeek[new Date(form.day.value).getDay()];
+        monthSelect.lastElementChild.innerHTML = `The ${ordinalNumber(nthDay)} ${dayName} of every month`;
+        monthSelect.lastElementChild.value = `The ${ordinalNumber(nthDay)} ${dayName} of every month`;
+      }
+
+      const rruleObj = createRRule();
+      if (rruleObj) {
+        const taskRRule = rruleObj;
+
+        const displayValue = createValue(rruleObj);
+
+        updateRepeatSelectOptions(displayValue, rruleObj);
+      }
+    }
+
+    function updateRepeatSelectOptions(displayValue, rruleObj) {
+      let customOption = Array.from(form.repeat.options).find(opt => opt.value.startsWith('RRULE:'));
+
+      if (customOption) {
+        customOption.text = displayValue;
+        customOption.value = rruleObj.toString();
+      } else {
+        const option = document.createElement('option');
+        option.text = displayValue;
+        option.value = rruleObj.toString();
+        form.repeat.appendChild(option);
+      }
+    }
+
+  </script>
 </body>
 
 </html>

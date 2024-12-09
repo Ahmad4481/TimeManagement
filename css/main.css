@@ -1,8 +1,5 @@
-/* التعديلات الأساسية للـ Responsive Design */
-
-/* Base Styles */
 html {
-  font-size: 62.5%; /* يجعل 1rem = 10px */
+  font-size: 62.5%; 
 }
 
 body {
@@ -24,48 +21,6 @@ body {
   outline: none;
 }
 
-::-webkit-scrollbar-track {
-  background-color: white;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #2d5061;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #34495e;
-}
-
-::-webkit-scrollbar {
-  width: 15px;
-  right: 0;
-}
-
-.container {
-  padding: 0 15px;
-  margin: 0 auto;
-}
-
-/* Small */
-@media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
-}
-
-/* Medium */
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
-}
-
-/* Large */
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
-}
 
 ul {
   list-style: none;
@@ -80,12 +35,10 @@ a {
   height: 100vh;
 }
 
-/* Start Aside  */
 aside {
   width: 80px;
   height: 100%;
 }
-/* End Aside  */
 
 .overlay {
   position: fixed;
@@ -99,9 +52,11 @@ aside {
   display: flex;
   align-items: center;
   justify-content: center;
+  .repeat {
+    z-index: 10000;
+  }
 }
 
-/* Form Styles */
 form.details {
   width: 100%;
   max-width: 400px;
@@ -114,21 +69,20 @@ form.details {
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  i {
-    position: absolute;
-    top: 7px;
-    left: 7px;
-    font-size: 2rem;
-    color: black;
-    cursor: pointer;
-    transition: 0.3s ease;
-    &:hover {
-      color: red;
-    }
+}
+i.close {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  font-size: 2rem;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s ease;
+  &:hover {
+    color: red;
   }
 }
 
-/* Form Heading */
 form.details h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -137,7 +91,6 @@ form.details h2 {
   letter-spacing: 1px;
 }
 
-/* Form Elements */
 form.details > div {
   margin-bottom: 20px;
 }
@@ -169,7 +122,6 @@ select:focus {
   outline: none;
 }
 
-/* Submit Button */
 input[type="submit"] {
   width: 100%;
   padding: 12px;
@@ -187,11 +139,14 @@ input[type="submit"] {
   margin-bottom: 10px;
 }
 
+.choices__inner {
+  border-radius: 8px;
+}
+
 input[type="submit"]:hover {
   background: #00c2f2;
 }
 
-/* Responsive Design */
 @media (max-width: 500px) {
   form.details {
     padding: 20px;
@@ -200,7 +155,6 @@ input[type="submit"]:hover {
     font-size: 16px;
   }
 }
-/* Start Header  */
 
 .add-task {
   position: fixed;
@@ -228,9 +182,6 @@ input[type="submit"]:hover {
   margin-left: 5px;
 }
 
-.add-task.hidden {
-}
-
 .add-task:hover {
   background-color: #1976d2;
   transform: scale(1.05);
@@ -255,7 +206,6 @@ input[type="submit"]:hover {
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
-/* Improved Sidebar Styles */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -307,7 +257,6 @@ input[type="submit"]:hover {
   text-align: center;
 }
 
-/* Improved Toggle Button Styles */
 .toggle-sidebar {
   position: fixed;
   top: 7.5px;
@@ -339,20 +288,20 @@ main {
   flex: 2;
   padding-left: 40px;
   margin-left: 250px;
+  overflow-y: auto;
 }
 main.hidden {
   margin-left: 60px;
 }
 
-/* Responsive design for smaller screens */
 
 .task {
-  background-color: #f9f9f9; /* خلفية فاتحة */
+  background-color: #f9f9f9; 
   padding: 20px;
   margin-bottom: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* تأثير الظلال */
-  transition: transform 0.2s, box-shadow 0.2s; /* تأثيرات على hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   justify-content: space-between;
   font-size: 1.4rem;
@@ -360,8 +309,8 @@ main.hidden {
 }
 
 .task:hover {
-  transform: translateY(-5px); /* رفع العنصر عند المرور */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* زيادة الظل */
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
 }
 
 .task > div:last-child {
@@ -370,7 +319,6 @@ main.hidden {
   gap: 10px;
 }
 
-/* تحسين مظهر div ليشبه الـ checkbox */
 .task-check {
   width: 30px;
   height: 30px;
@@ -385,23 +333,14 @@ main.hidden {
   text-decoration: none !important;
   transition: background-color 0.3s, border-color 0.3s;
 }
-.red {
-  border-color: red;
-}
-.blue {
-  border-color: blue;
-}
-.yellow {
-  border-color: yellow;
-}
 
 .task-check.checked {
-  background-color: #2d5061; /* تغيير اللون عند التحقق */
+  background-color: #2d5061; 
   border-color: #2c3e50;
 }
 
 .task-check i:first-child {
-  display: none; /* إخفاء أيقونة check عند البداية */
+  display: none; 
   color: white;
   font-size: 18px;
 }
@@ -423,34 +362,23 @@ main.hidden {
   }
 }
 
-/* تغيير اللون عند المرور بالماوس */
 .task-check:hover {
   border-color: #2c3e50;
 }
 
 .fil {
-  position: fixed;
-  top: 0;
-  border-radius: 0 0 8px 8px;
-  z-index: 100;
-  background-color: #ccc;
-  padding: 10px 0;
-  label,
-  input,
-  selcet {
-    width: 100%;
-  }
+  padding-right: 20px;
 }
 
 .task-list {
   padding-bottom: 40px;
   padding-right: 20px;
-  margin-top: 180px;
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {
   html {
-    font-size: 56.25%; /* يجعل 1rem = 9px */
+    font-size: 56.25%; 
   }
 }
 
@@ -501,14 +429,11 @@ main.hidden {
     padding-left: 5px;
   }
 
-  .add-task {
-  }
 }
 
 /* Task List Responsive */
 @media (max-width: 768px) {
   .task-list {
-    margin-top: 150px;
     padding-right: 10px;
   }
 
@@ -628,7 +553,7 @@ main.hidden {
   .search,
   select,
   button {
-    min-height: 44px; /* للتوافق مع معايير الوصول */
+    min-height: 44px; 
   }
 }
 
@@ -749,4 +674,62 @@ body {
   .mode-btn {
     width: 100%;
   }
+}
+.custom-repeat {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 99999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
+.repeat-frequency {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.repeat-frequency input {
+  width: 60px;
+}
+
+.weekdays {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.weekdays label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.repeat-end {
+  margin-top: 15px;
+}
+
+.repeat-end > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.repeat-end label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.repeat-end input[type="number"],
+.repeat-end input[type="date"] {
+  width: 120px;
 }
